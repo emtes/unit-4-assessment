@@ -49,7 +49,8 @@ function Phone(number) {
 Phone.prototype = {
   constructor: Phone,
   addContact(contact) {
-    if (contact.name.length <= 0 || !contact.phoneNumber.test(/^\d{10}/g)) {
+    const phonePatter = /^\d{10}/g;
+    if (contact.name === undefined || !phonePatter.test(contact.phoneNumber)) {
       return "Invalid";
     }
     this.contacts.push(contact);
@@ -57,14 +58,15 @@ Phone.prototype = {
   },
   removeContact(name) {
     if (this.contacts.some(contact => contact.name === name)) {
-      this.contacts.splice(this.contacts.indexOf(this.contacts.filter(c => c.name === name)[0]), 1);
+      this.contacts.splice(this.contacts.indexOf(this.contacts.filter(c => c.name === name)), 1);
       return `${name} removed.`;
     } else {
       return "Contact not found.";
     }
   },
   call(number) {
-    if (!number.test(/^\d{10}/g) || this.contacts.some(contact => contact.number === number)) {
+    const phonePatter = /^\d{10}/g;
+    if (!phonePatter.test(number) || this.contacts.some(contact => contact.number === number)) {
       return "Invalid";
     }
 
@@ -73,15 +75,88 @@ Phone.prototype = {
       const contactName = this.contacts[contactIndex].name;
       return `Calling ${contactName}...`;
     }
+
+    return `Calling ${number}`;
   },
 };
+
+//5
+class Person {
+  constructor(firstName, lastName, age, gender) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.gender = gender;
+  }
+
+  get fullname() {
+    return `${this.firstName} + ${this.lastName}`;
+  }
+
+  communicate() {
+    return 'Hello world';
+  }
+
+  eat() {
+    return 'Nom nom nom';
+  }
+
+  sleep() {
+    return 'Until later, world';
+  }
+}
+
+class Student extends Person {
+  constructor(name, lastname, age, gender, degree) {
+    super(name, lastname, age, gender);
+    this.degree = degree;
+  }
+
+  study() {
+    return 'Much knowledge';
+  }
+}
+
+class GraduateStudent extends Student {
+  constructor(name, lastname, age, gender, degree) {
+    Person.call(this, name, lastname, age, gender);
+    this.graduateDegree = degree;
+  }
+}
+
+const professionalMixin = {
+  invoice() {},
+  payTax() {},
+};
+
+class Professor extends Person {
+  constructor(name, lastname, age, gender, subject) {
+    super(name, lastname, age, gender)
+    this.subject = subject;
+    Object.assign(this, professionalMixin);
+  }
+  teach() {
+    return 'TAKE THIS KNOWLEDGE';
+  }
+}
+
+class Doctor extends Person {
+  constructor(name, lastname, age, gender, specialization) {
+    super(name, lastname, age, gender)
+    this.specialization = specialization;
+    Object.assign(this, professionalMixin);
+  }
+  diagnose() {
+    return 'TAKE THIS!';
+  }
+}
 
 module.exports = {
   makeAccount,
   SavingsAccount,
-  Phone,
+  //Phone,
   // AppleiPhone,
-  // Person,
+  Person,
   // Student,
   // GraduateStudent,
   // Professor,

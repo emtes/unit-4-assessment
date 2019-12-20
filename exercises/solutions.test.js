@@ -37,7 +37,7 @@ test('Question 3', () => {
   expect(myPhone.removeContact('Reuben')).toBe('Reuben removed.');
   expect(myPhone.contacts).toEqual([{ name: "Peter", phoneNumber: '3499217541', extraData: 'is perfectly fine' }]);
   expect(myPhone.removeContact('Paul')).toBe('Contact not found.');
-  expect(myPhone.call('Peter')).toBe('Contact not found.');
+  expect(myPhone.call('Paul')).toBe('Contact not found.');
   expect(myPhone.call('3499217541')).toBe('Calling Peter...');
   expect(myPhone.call('1234567890')).toBe('Calling 1234567890');
   expect(myPhone.call('888')).toBe('Invalid');
